@@ -1,0 +1,7 @@
+Tier,Title,CN_Name,Influence_Score,Advising_Power,Recruitment_Vibe,Risk_Flag
+T0,Academician,两院院士,100,Absolute,Extremely Hard,"Age risk: Might be over 65, usually delegates advising to young APs."
+T1,CJ Scholar/Distinguished Youth,长江及国家杰青,90,Very Strong,Highly Competitive,"Often busy with administrative duties. Access time is low."
+T2,Four Youth Talents,四青人才(优青/海优/青拔/青长),85,Strong,Competitive,"Highly active, pushing hard for papers, high pressure/PUA risk."
+T3,General Full Professor,普通正教授,70,Moderate,Normal,"Check recent funding. If no national grant, funding might be dry."
+T4,Associate Professor/AP,副教授/新锐AP,60,Growing,Moderate,"Often hands-on, high chance of co-first authorship, good for students willing to hustle."
+T5,Lecturer without grant,无头衔无大项目的讲师,30,Weak,Low,"Avoid if possible for PhD. Funding heavily restricted."

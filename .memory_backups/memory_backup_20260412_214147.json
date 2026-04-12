@@ -1,0 +1,43 @@
+{
+    "version": "v2_agentic",
+    "candidate_id": "auto_generated",
+    "static_profile": {
+        "intent": null,
+        "current_institution": {
+            "name": null,
+            "tier": null,
+            "location": null
+        },
+        "metrics": {
+            "gpa": null,
+            "ranking": null,
+            "scale": null
+        },
+        "funding_constraints": {
+            "requires_full_funding": true,
+            "accepts_csc": false,
+            "self_funded_budget_usd": 0
+        }
+    },
+    "academic_arsenal": {
+        "language_scores": {
+            "ielts_toefl": null,
+            "gre": null
+        },
+        "publications": [],
+        "core_skills": []
+    },
+    "risk_thresholds": {
+        "dealbreakers": [],
+        "preferred_regions": []
+    },
+    "pipeline_status": {
+        "stage0_language_cleared": false,
+        "stage1_cv_built": false,
+        "stage2_target_pool": [],
+        "stage3_pitch_sent": 0,
+        "stage4_materials_locked": false,
+        "stage5_6_offers_pending": 0,
+        "final_offer_accepted": null
+    }
+}

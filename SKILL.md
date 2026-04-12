@@ -10,11 +10,12 @@ description: 全球统配版研究生/博士申请工具箱 (Universal Graduate 
 本技能并非单体结构，而是整个硕博申请周期的 **中央调度器 (Routing Dispatcher)**。
 大模型必须严格遵循此调度逻辑，绝不允许在没有读取相关 Reference 文件前擅自“抖机灵”回复。
 
-## 📍 核心法则：全局状态记忆
+## 📍 核心法则：系统级防损态记忆 (Agentic Memory Schema)
 
-任何动作开始前，**必须查找或初始化**申请者的本地记忆树。
-- 👉 **查找路径**：在运行目录下寻找 `candidate_memory.md`。
-- 👉 **如未找到**：强制要求读取 `assets/memory_template.md`，并在用户工作区生成一份 `candidate_memory.md` 供后续更新。每次对话产生的突破（例如“今天确定了首批选校名单”），都要写回该文件。
+任何动作开始前，**必须执行底层 Python 脚本提取状态**，绝对不允许你在没有事实支撑的情况下瞎猜申请人画像。
+- 👉 **查找路径**：运行 `python scripts/memory_manager.py read`。
+- 👉 **如未找到/报错**：运行 `python scripts/memory_manager.py init` 强行建表。它会在根目录生成一份严格防错的 `candidate_memory.json`。
+- 👉 **更新纪律**：任何时候你需要归档一条新的进展（如拿到Offer，刷出雅思），你不准自己手写文件，必须立刻调用 `python scripts/memory_manager.py backup` 保命，并通过正确的代码修改该 JSON 的属性。
 
 ## 📍 命令路由表 (Command Routing Guide)
 
