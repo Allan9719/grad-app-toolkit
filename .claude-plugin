@@ -1,0 +1,13 @@
+{
+  "name": "Graduate Application Master Toolkit",
+  "version": "1.0",
+  "description": "专为国内初学者设计的 AI 终端硕博申请外挂 (Universal Shared-State Toolkit)。涵盖语言到终面的全链路子命令集。",
+  "commands": {
+    "ielts-toefl-coach": "Load references/stage0_language_coach.md -> Run IELTS/TOEFL coaching pipeline.",
+    "grad-profile-analyzer": "Load references/stage1_profile_analyzer.md -> Analyze profile and draft academic CV.",
+    "global-lab-detective": "Load references/stage2_lab_detective.md -> Execute 4D supervisor indexing and red-flag checking.",
+    "cold-pitch-tactician": "Load references/stage3_cold_pitch.md -> Draft strategic outreach emails.",
+    "sop-proposal-architect": "Load references/stage4_sop_architect.md -> Execute reverse-engineered essay structuring.",
+    "defense-simulator": "Load references/stage5_6_defense_and_offer.md -> Initiate high-pressure mock interview."
+  }
+}
