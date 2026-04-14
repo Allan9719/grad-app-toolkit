@@ -1,49 +1,106 @@
-# 🎓 硕博申请 AI 工具箱 (Universal Grad App Toolkit)
+# grad-app-toolkit
 
 ![Version](https://img.shields.io/badge/version-1.0-blue)
 ![Platform](https://img.shields.io/badge/platform-Codex%20%7C%20Claude%20CLI%20%7C%20Trae-success)
 
-这套工具箱将冗长的“几千字传统提示词”彻底废弃，取而代之的是一套拥有 **“状态共享体(Shared Memory)”** 的跨域多端原子化路由 (Atomic Routing) 辅导库。全面适配北美、欧洲、英联邦以及中国本地的申请生态落差。
+面向中国留学生的 AI 驱动硕博申请全流程工具箱。
 
-## ✨ 核心特性 / Core Features
+它采用“阶段路由 + 状态持久化”的原子架构，不把所有逻辑塞进一个大 prompt，而是通过 `SKILL.md` / `.traerules` 自动识别申请阶段，结合 `memory_manager.py` 维护共享状态，让 Claude CLI、Trae IDE、Codex 等 AI 编程助手在同一份申请语境中持续工作，输出一致、可追踪、可校验的指导。
 
-- **原生防幻觉架构**：告别单体大提示词中经常出现的“中间失忆 (Lost in the middle)”。根据当前所处的申请阶段，动态按需挂载 7套外挂知识库。
-- **状态永久留存**：引入 `candidate_memory.md`，终结大语言模型“每次重新对话都要重问一遍 GPA 是多少”的痛点。
-- **三端通用**：不论是偏爱纯命令行的极客 (Claude CLI)、习惯全局自然语言体系的选手 (Codex)，抑或是偏好 IDE 内置沉浸式 AI (字节跳动 Trae)，统统开箱即用。
+## 核心能力
 
----
+- 语言训练：IELTS / TOEFL 口语模拟、写作评分、学习计划
+- 背景分析：背景定位、CV 重构、现实校准
+- 导师检索：4D 导师评分矩阵，支持 US / EU / HK-SG / CN 区域适配
+- 套磁支持：三段式 cold pitch、跟进协议
+- 文书架构：PS / SOP / Research Proposal 双轨指导
+- 面试与 offer：委员会 / 面板模拟面试、offer negotiation guide
 
-## 🚀 7段破壁行动流 / The 7-Stage Pipeline
+## 核心架构
 
-在你的客户端触发对应的能力（或直接问相关问题），后台会静默切换其思维系统：
+- 6 个阶段知识底座 + 1 个共享记忆层
+- `candidate_memory.json` 配合 JSON Schema 严格校验
+- 文件锁 + 原子写入，保障并发安全
+- 参考数据来自 CSV ground-truth，便于校准判断
+- 全部基于 Python 标准库实现，零外部依赖
 
-* **[Stage 0] 提分教头** (`/ielts-toefl-coach`)：非模板化的雅思口语压测，大作文词汇极速降维与重组。
-* **[Stage 1] 基因检测** (`/grad-profile-analyzer`)：GPA 与硬件指标毒舌解析，学术经历逆转包装。
-* **[Stage 2] 情报内参** (`/global-lab-detective`)：**封神级特务模块**。搭载了大陆（院士四青）、北美（委员会制）、欧陆（TVöD合同制）的 **4D 评分与高危排雷 (Red Flags)** 反欺诈雷达。
-* **[Stage 3] 利益置换** (`/cold-pitch-tactician`)：摒弃千字“热爱宣言”，教你写带有“技术置换价值”的 3 段式追寄防沉邮件。
-* **[Stage 4] 建筑图纸** (`/sop-proposal-architect`)：提供深潜版的个人陈述 (SOP) 与欧陆风范全开的 Research Proposal 撰写范式。
-* **[Stage 5] 地狱压测** (`/defense-simulator`)：化身魔鬼考官小组，连番拷问实验推导。
-* **[Stage 6] 战利拼抢** (`/offer-negotiation-desk`)：高情商斩获 Fellowship，或是体面化解重叠的 Offer。
+## 6 阶段流水线
 
----
+| 阶段 | 知识底座 | 覆盖内容 |
+|---|---|---|
+| Stage 0 | `stage0_language_coach.md` | IELTS / TOEFL 口语模拟、写作评分、学习计划 |
+| Stage 1 | `stage1_profile_analyzer.md` | 背景定位、CV 重构（STAR 法则）、现实校准（MRes 保底 / RA 间隔年） |
+| Stage 2 | `stage2_lab_detective.md` | 4D 导师评分矩阵（Fit / Activity / Feasibility / Risk），US / EU / HK-SG / CN 区域适配 |
+| Stage 3 | `stage3_cold_pitch.md` | 套磁信 3 段结构（Hook / Value / CTA）、跟进协议 |
+| Stage 4 | `stage4_sop_architect.md` | PS / SOP（4 段式）+ Research Proposal（Research Gap + Gantt Chart）双轨制 |
+| Stage 5 & 6 | `stage5_6_defense_and_offer.md` | North America committee / Europe panel mock interview + offer negotiation templates |
 
-## 🛠️ 安装与部署指南 / Installation
+## 技术栈
 
-### 针对于终端玩家 (Claude CLI)
-在终端加载此路径，它会自动解析 `.claude-plugin`。
-1. 在输入栏敲击 `/` 触发斜杠命令面板
-2. 自动补全并选择如 `/global-lab-detective`
+| 组件 | 技术选型 |
+|---|---|
+| 状态管理 | Python CLI (`memory_manager.py`) — init / read / validate / update / backup / bootstrap |
+| 数据合约 | JSON Schema (`memory_contract.json`) — `additionalProperties: false`，严格类型校验 |
+| 并发安全 | 文件锁 (`candidate_memory.json.lock`) + 原子写入 (`tempfile` + `os.replace`) |
+| 参考数据 | CSV ground-truth（中国学术头衔层级、欧洲 PhD 薪资 TVoD、美国 stipend 地区对照） |
+| 测试 | 35 个 `unittest`（内存管理、协议一致性、Shell 诊断） |
+| CI | GitHub Actions (`windows-latest`, Python 3.11 / 3.12) |
 
-### 针对于字节跳动 Trae IDE
-直接使用 Trae 打开本项目所在文件夹。
-它会自动捕获根目录下的 `.traerules`，接管对话系统的常驻大脑。你只需在右侧的 Chat 面板用中文发号施令即可。
+## 设计原则
 
-### 针对于 Codex 框架
-将本文件夹注册丢入您的 Skill 库。
-直接对大模型发送需要解决的任务，`SKILL.md` 的调度引擎会自动判定路由归属。
+- 不把所有知识塞进一个 prompt
+- 不代写掺水履历
+- 不造假数据
+- 不背书中介话术
+- 所有指导都服务于“学生向独立研究者”的真实转型
 
----
+## 使用方式
 
-## 📄 执照与防作恶声明
-**仅供留学情报打破信息差使用。**
-该系统强制内嵌“反中介包装机制”与“底线学术道德”，绝不允许代写捏造数据，一切文书需经用户原创项目为唯一背书。
+### Claude CLI
+
+- 打开仓库根目录后，`SKILL.md` 会作为路由分发入口
+- 先运行 `python scripts/memory_manager.py bootstrap`
+- 需要检查状态时运行 `python scripts/memory_manager.py validate`
+- 需要读取当前共享状态时运行 `python scripts/memory_manager.py read`
+
+### Trae IDE
+
+- 直接用 Trae 打开本项目文件夹
+- `.traerules` 会接管阶段路由和共享状态读取逻辑
+
+### Codex / 其他 AI 编程助手
+
+- `SKILL.md` 负责阶段识别与知识底座分发
+- 所有阶段都通过 `references/` 中的原子知识文件提供支持
+
+## 项目结构
+
+```text
+grad-app-toolkit/
+├── SKILL.md
+├── .claude-plugin
+├── .traerules
+├── README.md
+├── assets/
+│   ├── memory_contract.json
+│   ├── memory_schema.json
+│   └── ground_truth/
+├── references/
+├── scripts/
+│   ├── memory_manager.py
+│   └── shell_diagnostics.py
+├── tests/
+└── .github/workflows/ci.yml
+```
+
+## 验证与排障
+
+- 仓库使用 GitHub Actions 在 `windows-latest` 上运行单测与状态校验
+- If you want to verify the shell runtime, run `python scripts/shell_diagnostics.py`
+- 如果你只关心共享状态是否合规，可以运行 `python scripts/memory_manager.py validate`
+
+## 当前状态
+
+- 代码质量：本轮审核后修复了 6 个 HIGH、5 个 MEDIUM、2 个 LOW 问题
+- 测试覆盖：`35/35` 全部通过
+- Git 状态：所有修改在工作区，未提交
