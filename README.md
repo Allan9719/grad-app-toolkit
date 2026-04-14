@@ -1,55 +1,129 @@
 # grad-app-toolkit
 
-![Version](https://img.shields.io/badge/version-1.0-blue)
-![Platform](https://img.shields.io/badge/platform-Codex%20%7C%20Claude%20CLI%20%7C%20Trae-success)
+[![Version](https://img.shields.io/badge/version-2.0-blue)](./CHANGELOG.md)
+[![Tests](https://img.shields.io/badge/tests-35%2F35-brightgreen)](./tests/)
+[![Platform](https://img.shields.io/badge/platform-Claude%20CLI%20%7C%20Trae%20%7C%20Codex-success)](./SKILL.md)
+[![CI](https://img.shields.io/badge/CI-Windows-blueviolet)](./.github/workflows/ci.yml)
 
-面向中国留学生的 AI 驱动硕博申请工具箱。
+AI-powered graduate application toolkit for Chinese students. Covers the entire journey from language prep to offer negotiation, with a shared memory layer that keeps every AI session context-aware.
 
-它把申请流程拆成 6 个阶段知识底座 + 1 个共享记忆层，通过 `SKILL.md` / `.traerules` 路由到对应阶段，并用 `scripts/memory_manager.py` 维护 `candidate_memory.json`，让 Claude CLI、Trae IDE、Codex 等助手在同一份申请语境里持续工作。
+---
 
-## 一句话价值
+## Why This Exists
 
-- 少问重复问题
-- 少写通用废话
-- 让申请指导始终围绕当前阶段和真实背景展开
+Applying for a Master's or PhD abroad involves dozens of repetitive conversations with AI assistants. Every new session, you re-explain your GPA, your target region, your publications. This toolkit eliminates that friction:
 
-## 6 阶段流水线
+- **Stateful memory** - Your profile lives in a structured JSON file, not in chat history
+- **Stage routing** - Each phase of the application has a dedicated knowledge base
+- **Cross-platform** - Works in Claude CLI, Trae IDE, and Codex with the same data
 
-| 阶段 | 作用 | 知识底座 |
-|---|---|---|
-| Stage 0 | 语言训练 | `stage0_language_coach.md` |
-| Stage 1 | 背景分析与 CV 重构 | `stage1_profile_analyzer.md` |
-| Stage 2 | 导师检索与风险排雷 | `stage2_lab_detective.md` |
-| Stage 3 | 套磁支持 | `stage3_cold_pitch.md` |
-| Stage 4 | SOP / PS / Research Proposal | `stage4_sop_architect.md` |
-| Stage 5 & 6 | 面试压测与 offer 谈判 | `stage5_6_defense_and_offer.md` |
+## The 6-Stage Pipeline
 
-## 核心文件
+```
+Stage 0          Stage 1           Stage 2           Stage 3          Stage 4           Stage 5&6
+Language ────> Profile ────────> Supervisor ──────> Cold Pitch ────> SOP/PS/RP ──────> Interview &
+Coach            Analyzer          Detective                           Architect          Offer
+```
 
-- `SKILL.md`：Claude CLI 的路由入口
-- `.traerules`：Trae IDE 的系统规则
-- `scripts/memory_manager.py`：共享状态管理 CLI
-- `assets/memory_contract.json`：状态合约与校验规则
-- `references/`：6 个阶段的原子知识底座
-- `tests/`：协议一致性、内存管理、Shell 诊断测试
-- `CHANGELOG.md`：版本记录与发布说明
-- `.github/workflows/ci.yml`：Windows CI
+| Stage | What It Does | Trigger |
+|-------|-------------|---------|
+| **0** Language Coach | IELTS/TOEFL mock grading, study plans, writing correction | "雅思怎么上7", "帮我批改大作文" |
+| **1** Profile Analyzer | GPA positioning, CV rewriting, application strategy | "我这个背景能申哪", "帮我改CV" |
+| **2** Lab Detective | 4D supervisor scoring, red-flag detection, fit analysis | "这个导师怎么样", "帮我选校" |
+| **3** Cold Pitch | Outreach email drafting, follow-up strategies | "帮我写套磁信", "导师没回怎么办" |
+| **4** SOP Architect | Personal Statement, Research Proposal structure | "帮我写PS", "Research Proposal怎么搭" |
+| **5&6** Defense & Offer | Mock interviews, offer comparison, funding negotiation | "模拟面试", "怎么催offer" |
 
-## 快速开始
+## Shared Memory System
 
-1. `python scripts/memory_manager.py bootstrap`
-2. `python scripts/memory_manager.py validate`
-3. 在 Claude CLI、Trae IDE 或 Codex 中打开仓库，按阶段使用对应命令或路由
+The core of this toolkit is `candidate_memory.json` - a structured state file that persists your profile across sessions:
 
-## 安全边界
+```
+candidate_memory.json
+├── static_profile        # GPA, institution, funding constraints
+├── academic_arsenal      # Language scores, publications, skills
+├── risk_thresholds       # Dealbreakers, preferred regions
+└── pipeline_status       # Progress tracker for all 6 stages
+```
 
-- 不代写掺水履历
-- 不造假数据
-- 不背书中介话术
-- 所有指导都服务于“学生向独立研究者”的真实转型
+All mutations go through `scripts/memory_manager.py`, which auto-backs up before every write and validates against a JSON Schema contract.
 
-## 当前状态
+## Quick Start
 
-- `35/35` 测试通过
-- 共享记忆合约已验证
-- GitHub Actions 已接入 Windows CI
+```bash
+# 1. Clone the repo
+git clone https://github.com/Allan9719/grad-app-toolkit.git
+cd grad-app-toolkit
+
+# 2. Bootstrap - creates and validates your memory file
+python scripts/memory_manager.py bootstrap
+
+# 3. Verify everything is healthy
+python scripts/memory_manager.py validate
+
+# 4. Open in your AI assistant and start applying
+```
+
+### Memory Manager Commands
+
+```bash
+python scripts/memory_manager.py init                    # Create empty memory file
+python scripts/memory_manager.py bootstrap               # Init + validate in one step
+python scripts/memory_manager.py read                    # Print current state
+python scripts/memory_manager.py validate                # Check against contract schema
+python scripts/memory_manager.py update <path> <value>   # Update a field (auto-backup)
+# Example: python scripts/memory_manager.py update static_profile.metrics.gpa 3.85
+```
+
+## Project Structure
+
+```
+grad-app-toolkit/
+├── SKILL.md                          # Claude CLI skill entry point
+├── .traerules                        # Trae IDE system rules
+├── .claude-plugin                    # Plugin command registry
+├── candidate_memory.json             # Your persistent profile (auto-generated)
+├── scripts/
+│   ├── memory_manager.py             # State management CLI
+│   └── shell_diagnostics.py          # Shell environment diagnostics
+├── references/                       # Stage knowledge bases (the "brain")
+│   ├── stage0_language_coach.md
+│   ├── stage1_profile_analyzer.md
+│   ├── stage2_lab_detective.md
+│   ├── stage3_cold_pitch.md
+│   ├── stage4_sop_architect.md
+│   └── stage5_6_defense_and_offer.md
+├── assets/
+│   ├── memory_contract.json          # JSON Schema for memory validation
+│   ├── memory_schema.json            # Legacy schema
+│   ├── memory_template.md            # Template for new profiles
+│   └── ground_truth/                 # Reference data (stipends, salaries)
+├── tests/                            # 35 tests: protocol, memory, shell
+├── docs/
+│   └── verification_and_shell_troubleshooting.md
+├── .github/workflows/ci.yml          # Windows CI pipeline
+└── CHANGELOG.md
+```
+
+## Safety Boundaries
+
+This toolkit will **never**:
+
+- Ghostwrite fabricated credentials or inflated CVs
+- Generate fake data or test scores
+- Endorse predatory agency rhetoric or "guaranteed admission" scams
+- Produce generic filler like "I am a diligent and detail-oriented student"
+
+Every piece of advice is designed to support your genuine transition from student to independent researcher.
+
+## Tech Stack
+
+- **Language**: Python 3.11+
+- **State format**: JSON with JSON Schema validation
+- **Concurrency**: File-based locking for multi-process safety
+- **CI**: GitHub Actions on Windows
+- **Testing**: pytest (35 tests, protocol consistency + memory management)
+
+## License
+
+This project is intended for personal, educational use. See repository for details.
