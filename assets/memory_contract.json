@@ -1,0 +1,242 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "candidate_id",
+    "static_profile",
+    "academic_arsenal",
+    "risk_thresholds",
+    "pipeline_status"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "enum": [
+        "v2_agentic"
+      ]
+    },
+    "candidate_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "static_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "intent",
+        "current_institution",
+        "metrics",
+        "funding_constraints"
+      ],
+      "properties": {
+        "intent": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "current_institution": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "tier",
+            "location"
+          ],
+          "properties": {
+            "name": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "tier": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "location": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "metrics": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "gpa",
+            "ranking",
+            "scale"
+          ],
+          "properties": {
+            "gpa": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ranking": {
+              "type": [
+                "string",
+                "number",
+                "null"
+              ]
+            },
+            "scale": {
+              "type": [
+                "string",
+                "number",
+                "null"
+              ]
+            }
+          }
+        },
+        "funding_constraints": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "requires_full_funding",
+            "accepts_csc",
+            "self_funded_budget_usd"
+          ],
+          "properties": {
+            "requires_full_funding": {
+              "type": "boolean"
+            },
+            "accepts_csc": {
+              "type": "boolean"
+            },
+            "self_funded_budget_usd": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        }
+      }
+    },
+    "academic_arsenal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "language_scores",
+        "publications",
+        "core_skills"
+      ],
+      "properties": {
+        "language_scores": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "ielts_toefl",
+            "gre"
+          ],
+          "properties": {
+            "ielts_toefl": {
+              "type": [
+                "string",
+                "object",
+                "null"
+              ]
+            },
+            "gre": {
+              "type": [
+                "string",
+                "object",
+                "null"
+              ]
+            }
+          }
+        },
+        "publications": {
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "object"
+            ]
+          }
+        },
+        "core_skills": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "risk_thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dealbreakers",
+        "preferred_regions"
+      ],
+      "properties": {
+        "dealbreakers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "preferred_regions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "pipeline_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage0_language_cleared",
+        "stage1_cv_built",
+        "stage2_target_pool",
+        "stage3_pitch_sent",
+        "stage4_materials_locked",
+        "stage5_6_offers_pending",
+        "final_offer_accepted"
+      ],
+      "properties": {
+        "stage0_language_cleared": {
+          "type": "boolean"
+        },
+        "stage1_cv_built": {
+          "type": "boolean"
+        },
+        "stage2_target_pool": {
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "object"
+            ]
+          }
+        },
+        "stage3_pitch_sent": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "stage4_materials_locked": {
+          "type": "boolean"
+        },
+        "stage5_6_offers_pending": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "final_offer_accepted": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}

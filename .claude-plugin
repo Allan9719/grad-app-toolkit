@@ -8,6 +8,7 @@
     "global-lab-detective": "Load references/stage2_lab_detective.md -> Execute 4D supervisor indexing and red-flag checking.",
     "cold-pitch-tactician": "Load references/stage3_cold_pitch.md -> Draft strategic outreach emails.",
     "sop-proposal-architect": "Load references/stage4_sop_architect.md -> Execute reverse-engineered essay structuring.",
-    "defense-simulator": "Load references/stage5_6_defense_and_offer.md -> Initiate high-pressure mock interview."
+    "defense-simulator": "Load references/stage5_6_defense_and_offer.md -> Initiate high-pressure mock interview.",
+    "offer-negotiation-desk": "Load references/stage5_6_defense_and_offer.md -> Execute offer comparison and funding negotiation workflow."
   }
 }

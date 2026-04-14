@@ -1,7 +1,11 @@
 # 🧬 申请者生命树底座 (Candidate Memory)
 
-> [!WARNING] 工具链专用内部状态机
-> AI 助手必须随时依据最新反馈维持并更新本文件的内容，不得出现主观推测或幻觉数据。在初次初始化时，用括号引导用户补充关键盲区。
+> [!NOTE]
+> 此文件仅作为给人类查看的 Markdown 视图模板，不再作为运行时共享状态源。
+> 运行时唯一真相源是根目录下由 `scripts/memory_manager.py` 管理的 `candidate_memory.json`。
+
+> [!WARNING]
+> 如果需要导出 Markdown 视图，内容必须从 `candidate_memory.json` 同步生成，不得把这个模板当成运行时状态机直接维护。
 
 ## 一、静态底座 (Static Anchor)
 - **硬切口目标**：(如：2026年秋季入学 / 仅限申请全奖 PhD / 不考虑授课硕)

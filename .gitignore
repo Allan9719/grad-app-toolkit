@@ -1,0 +1,5 @@
+candidate_memory.json
+candidate_memory.json.lock
+.memory_backups/
+__pycache__/
+*.pyc

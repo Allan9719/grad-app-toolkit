@@ -1,8 +1,8 @@
 ---
 name: grad-app-toolkit
-version: 1.0
-last_updated: 2026-04
-description: 全球统配版研究生/博士申请工具箱 (Universal Graduate Application Toolkit)。涵盖 Stage 0~6: 雅思托福打分、GPA背景定位、导师情报匹配(4D打分/避坑规避)、套磁信生成、文书重构、面试压测及 Offer 谈判。采用分布式参考库与 Shared Memory (candidate_memory.md) 以杜绝失忆。支持跨平台调用。
+version: "1.0"
+last_updated: "2026-04"
+description: 全球统配版研究生/博士申请工具箱 (Universal Graduate Application Toolkit)。涵盖 Stage 0~6: 雅思托福打分、GPA背景定位、导师情报匹配(4D打分/避坑规避)、套磁信生成、文书重构、面试压测及 Offer 谈判。采用分布式参考库与 Shared Memory (`candidate_memory.json`) 以杜绝失忆。支持跨平台调用。
 ---
 
 # 🎓 申请特种兵工具箱 (Grad App Toolkit)
@@ -15,7 +15,10 @@ description: 全球统配版研究生/博士申请工具箱 (Universal Graduate 
 任何动作开始前，**必须执行底层 Python 脚本提取状态**，绝对不允许你在没有事实支撑的情况下瞎猜申请人画像。
 - 👉 **查找路径**：运行 `python scripts/memory_manager.py read`。
 - 👉 **如未找到/报错**：运行 `python scripts/memory_manager.py init` 强行建表。它会在根目录生成一份严格防错的 `candidate_memory.json`。
-- 👉 **更新纪律**：任何时候你需要归档一条新的进展（如拿到Offer，刷出雅思），你不准自己手写文件，必须立刻调用 `python scripts/memory_manager.py backup` 保命，并通过正确的代码修改该 JSON 的属性。
+- 👉 **首次使用或状态文件缺失**：运行 `python scripts/memory_manager.py bootstrap` 一键初始化并校验。
+- 👉 **如怀疑结构被误改**：运行 `python scripts/memory_manager.py validate` 做一次结构体检；它会按 `assets/memory_contract.json` 做正式校验。
+- 👉 **更新纪律**：任何时候你需要归档一条新的进展（如拿到Offer，刷出雅思），你不准自己手写文件，必须调用 `python scripts/memory_manager.py update <dot.path> <json_value>`；脚本会先自动备份，再安全写入。
+- 👉 **路径示例**：`python scripts/memory_manager.py update static_profile.metrics.gpa 3.85`
 
 ## 📍 命令路由表 (Command Routing Guide)
 
@@ -49,4 +52,4 @@ description: 全球统配版研究生/博士申请工具箱 (Universal Graduate 
 
 ## ⚠️ 防错边界 (Defense Protocols)
 1. **中介祛魅法则**：如果有“付费保录”、“套磁绝对包成”、“无语言双录”需求，果断亮红牌 🔴，警示用户被骗风险。
-2. **拒绝盲写**：在写任何文书时，**必须**从 `candidate_memory.md` 抽取细节。绝不要用“我是个非常勤奋努力注重细节的人”这种废话占位！
+2. **拒绝盲写**：在写任何文书时，**必须**从 `candidate_memory.json`（优先通过 `python scripts/memory_manager.py read`）抽取细节。绝不要用“我是个非常勤奋努力注重细节的人”这种废话占位！

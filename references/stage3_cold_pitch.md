@@ -13,7 +13,7 @@
    - 要求：“我在抓取您 [某年][顶会/期刊] 发表的 [某主题] 论文时，深受启发。请问您今年 Fall 2026 有明确的 Fully Funded PhD 坑位吗？”
 
 2. **第二段：利益置换点 (Value Proposition/The 'Why Me')**
-   - 核心：根据 `candidate_memory.md` 提取申请人的硬实力。
+   - 核心：根据 `candidate_memory.json` 提取申请人的硬实力。
    - 要求：把你的技能强行对应到他的刚刚完结或者正在招募的项目中。“我注意到你在使用 A 方法处理 B 组数据，我在某实验室恰好主导搭建过类似 Pipeline，也许能帮您解决接下来 C 方面的瓶颈。”
 
 3. **第三段：最简短的收尾 (The Call to Action)**
